@@ -1,4 +1,13 @@
 c:\workspace\Chess\src\main\java\com\chess\App.java
+c:\workspace\Chess\src\main\java\com\chess\models\Board.java
+c:\workspace\Chess\src\main\java\com\chess\views\View.java
 c:\workspace\Chess\src\main\java\module-info.java
-c:\workspace\Chess\src\main\java\com\chess\PrimaryController.java
-c:\workspace\Chess\src\main\java\com\chess\SecondaryController.java
+c:\workspace\Chess\src\main\java\com\chess\models\Model.java
+c:\workspace\Chess\src\main\java\com\chess\models\Pawn.java
+c:\workspace\Chess\src\main\java\com\chess\models\Rook.java
+c:\workspace\Chess\src\main\java\com\chess\controllers\Controller.java
+c:\workspace\Chess\src\main\java\com\chess\models\King.java
+c:\workspace\Chess\src\main\java\com\chess\models\Piece.java
+c:\workspace\Chess\src\main\java\com\chess\models\Queen.java
+c:\workspace\Chess\src\main\java\com\chess\models\Square.java
+c:\workspace\Chess\src\main\java\com\chess\models\Bishop.java

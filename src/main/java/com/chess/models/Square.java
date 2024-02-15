@@ -9,11 +9,20 @@ public class Square {
     public Square(){
     }
 
+
+    public Piece getPiece(){
+        return this.p;
+    }
+
+    public Rectangle getSquare(){
+        return this.sq;
+    }
+
     public void setPiece(Piece _p){
         this.p = _p;
     }
 
-    public Piece getPiece(){
-        return this.p;
+    public void setSquare(Rectangle square){
+        this.sq = square;
     }
 }

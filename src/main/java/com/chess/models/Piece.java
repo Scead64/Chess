@@ -21,17 +21,17 @@ public abstract class Piece {
      * 
      * @returns true if viable, false otherwise.
      */
-    public boolean verifyMove(int location){
-        Piece p = board.getPiece(location);
-        if(p != null){
-            if (p.color.equals(this.color)){
-                return false;
-            }
-        }
+    // public boolean verifyMove(int location){
+    //     Piece p = board.getPiece(location);
+    //     if(p != null){
+    //         if (p.color.equals(this.color)){
+    //             return false;
+    //         }
+    //     }
 
-        //TODO: add checks for steps 2 & 3
-        return true;
-    }
+    //     //TODO: add checks for steps 2 & 3
+    //     return true;
+    // }
 
 
     abstract ArrayList<Integer> getMoves();

@@ -1,4 +1,2 @@
-com\chess\PrimaryController.class
-com\chess\SecondaryController.class
-module-info.class
 com\chess\App.class
+module-info.class
