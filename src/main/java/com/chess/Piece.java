@@ -1,5 +1,4 @@
-package chess.target.classes;
-
+package com.chess;
 
 public abstract class Piece {
     boolean color;

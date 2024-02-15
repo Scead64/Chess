@@ -1,6 +1,6 @@
-package chess.target.classes;
+package com.chess;
 
-public class Pawn extends Piece{
+class Pawn extends Piece{
     boolean color;
     int x,y;
 
