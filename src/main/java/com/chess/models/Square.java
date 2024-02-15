@@ -9,4 +9,11 @@ public class Square {
     public Square(){
     }
 
+    public void setPiece(Piece _p){
+        this.p = _p;
+    }
+
+    public Piece getPiece(){
+        return this.p;
+    }
 }

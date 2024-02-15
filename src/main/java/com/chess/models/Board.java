@@ -2,7 +2,7 @@ package com.chess.models;
 
 public class Board {
     
-    Square[] squares;
+    private Square[] squares;
 
     public Board(){
         squares = new Square[63];
@@ -17,6 +17,10 @@ public class Board {
      */
     public Piece getPiece(int location){
         return squares[location].p;
+    }
+
+    public Square getSquare(int location){
+        return squares[location];
     }
 
 }

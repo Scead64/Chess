@@ -8,7 +8,7 @@ public class Model {
     public static final int KING_START = 4;
     public static final int[] PAWN_START = {8,9,10,11,12,13,14,15};
 
-    public void setWhite(){
+    public void setBlack(){
         for(int n: ROOK_START){
             //Setup for Rooks
         }
@@ -28,7 +28,7 @@ public class Model {
         //Setup king/queen
     }
 
-    public void setBlock(){
+    public void setWhite(){
         for(int n: ROOK_START){
             int coordinate = flipCoordinate(n);
             //Setup for Rooks
