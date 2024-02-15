@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.chess.controllers.Controller;
+import com.chess.models.Board;
 import com.chess.views.View;
 
 /**
@@ -26,12 +28,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Group root = new Group();
-        scene = new Scene(root,  View.SQUARE_SIZE*View.NUM_ROWS, View.SQUARE_SIZE*View.NUM_ROWS, Color.BLACK);
+        scene = new Scene(root,  View.SQUARE_SIZE*Board.NUM_ROWS, View.SQUARE_SIZE*Board.NUM_ROWS, Color.CYAN);
         Image icon = new Image("Chess_tile_pl.png");
-        
         stage.setTitle("Chess");
         stage.getIcons().add(icon);
-
+        Controller.setBoard(root);
 
 
         stage.setScene(scene);
