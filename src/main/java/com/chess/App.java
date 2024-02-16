@@ -6,10 +6,12 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import com.chess.controllers.Controller;
@@ -27,11 +29,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Group root = new Group();
-        scene = new Scene(root,  View.SQUARE_SIZE*Board.NUM_ROWS, View.SQUARE_SIZE*Board.NUM_ROWS, Color.CYAN);
-        Image icon = new Image("Chess_tile_pl.png");
         stage.setTitle("Chess");
+        Image icon = new Image("Chess_tile_pl.png");
         stage.getIcons().add(icon);
+        
+        Group root = new Group();
+        scene = new Scene(root,  View.SQUARE_SIZE*Board.NUM_ROWS, View.SQUARE_SIZE*Board.NUM_ROWS, Color.BLACK);
         Controller.setBoard(root);
 
 

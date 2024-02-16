@@ -1,11 +1,21 @@
 package com.chess.models;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 class Queen extends Bishop{
 
     public Queen(String _color, int _location){
         super(_color, _location);
+        try{
+            this.pieceImage = new Image(new FileInputStream("chess_" + this.color + "_queen.png"));
+            this.pieceImageView = new ImageView(this.pieceImage);
+        } catch(Exception e) {
+            System.out.println("Error creating pawn image");
+        }
     }
     
 
