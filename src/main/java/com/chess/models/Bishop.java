@@ -35,9 +35,11 @@ public class Bishop extends Piece{
             moves.add(this.location-(j*9));
         }
 
+        System.out.println("south: " + maxSouth + ", west: " + maxWest);
+
         //south west
         distance = Math.min(maxSouth, maxWest);
-        for(int k = 1; k < distance; k++){
+        for(int k = 1; k <= distance; k++){
             moves.add(this.location+(k*7));
         }
 
