@@ -20,16 +20,44 @@ public class Knight extends Piece{
     
     public ArrayList<Integer> getMoves(){
         ArrayList<Integer> moves = new ArrayList<>();
-        int row = (this.location/8)*8;
-        int col = (this.location%8);
-        int counter = 0;
-        while(counter < 8){
-            moves.add(row);
-            moves.add(col);
-            row++;
-            col+=8;
-            counter++;
+        int maxWest = this.location % 8, maxNorth = this.location / 8, maxEast = 7-maxWest, maxSouth = 7-maxNorth;
+
+        if(maxNorth >= 2){
+            if(maxWest > 0){
+                moves.add(this.location-17);
+            }
+            if(maxEast > 0){
+                moves.add(this.location-15);
+            }
         }
+
+        if(maxSouth >= 2){
+            if(maxWest > 0){
+                moves.add(this.location+15);
+            }
+            if(maxEast > 0){
+                moves.add(this.location+17);
+            }
+        }
+
+        if(maxWest >= 2){
+            if(maxNorth > 0){
+                moves.add(this.location-10);
+            }
+            if(maxSouth > 0){
+                moves.add(this.location+6);
+            }
+        }
+
+        if(maxEast >= 2){
+            if(maxNorth > 0){
+                moves.add(this.location-6);
+            }
+            if(maxSouth > 0){
+                moves.add(this.location+10);
+            }
+        }
+        
         return moves;
     }
 }
