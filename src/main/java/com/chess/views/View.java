@@ -104,4 +104,13 @@ public class View {
 
         return newRow+col;
     }
+
+    public static void highlightSquare(Square sq){
+        sq.getSquare().setFill(Color.AQUA);
+    }
+
+    public static void unhighlightSquare(Square sq){
+        // if(sq.getLocation() )
+        sq.getSquare().setFill(Color.BLACK);
+    }
 }
