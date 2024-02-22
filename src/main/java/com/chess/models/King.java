@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-class King extends Piece{
+public class King extends Piece{
 
     public King(String _color, int _location){
         this.color = _color;
         this.location = _location;
         try{
-            this.pieceImage = new Image(new FileInputStream("chess_" + this.color + "_king.png"));
+            this.pieceImage = new Image("chess_" + this.color + "_king.png");
             this.pieceImageView = new ImageView(this.pieceImage);
+            this.pieceImageView.setPreserveRatio(true);
         } catch(Exception e) {
-            System.out.println("Error creating pawn image");
+            System.out.println("Error creating king image");
         }
     }
     

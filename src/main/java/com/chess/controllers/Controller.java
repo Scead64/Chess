@@ -2,6 +2,7 @@ package com.chess.controllers;
 
 
 import com.chess.models.Board;
+import com.chess.models.Square;
 import com.chess.views.View;
 
 import javafx.scene.Group;
@@ -30,11 +31,14 @@ public class Controller {
 
         View.drawPieces(board);
         for(int i = 0; i < Board.NUM_SQUARES; i++){
-            StackPane sp = board.getSquare(i).getPane();
-            Rectangle sq = board.getSquare(i).getSquare();
-            sp.setOnMouseClicked(e -> {
-                sq.setFill(Color.BLACK);
-                System.out.println(sp.getLayoutX() + " " + sp.getLayoutY());
+            Square sq = board.getSquare(i);
+            sq.getPane().setOnMouseClicked(e -> {
+                int loc = sq.getLocation() + 8;
+                if(loc > 63){
+                    loc = loc-63;
+                }
+                board.getSquare(loc).getSquare().setFill(Color.BLACK);
+                System.out.println(sq.hasPiece());
             });
         }
     }

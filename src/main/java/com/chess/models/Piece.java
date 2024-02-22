@@ -18,9 +18,17 @@ public abstract class Piece {
     Image pieceImage;
     ImageView pieceImageView;
 
+    Piece(){
+
+    }
+
     //Moves peice from its location to new coordinate n.
     void move(int n){
         this.location = n;
+    }
+
+    public ImageView getImageView(){
+        return this.pieceImageView;
     }
 
     /*

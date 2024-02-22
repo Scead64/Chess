@@ -1,22 +1,21 @@
 package com.chess.models;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Rook extends Piece{
+public class Knight extends Piece{
 
-    public Rook(String _color, int _location){
+    public Knight(String _color, int _location){
         this.color = _color;
         this.location = _location;
         try{
-            this.pieceImage = new Image("chess_" + this.color + "_rook.png");
+            this.pieceImage = new Image("chess_" + this.color + "_knight.png");
             this.pieceImageView = new ImageView(this.pieceImage);
             this.pieceImageView.setPreserveRatio(true);
         } catch(Exception e) {
-            System.out.println("Error creating rook image");
+            System.out.println("Error creating knight image");
         }
     }
     

@@ -6,14 +6,15 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-class Pawn extends Piece{
+public class Pawn extends Piece{
 
     public Pawn(String _color, int _location){
         this.color = _color;
         this.location = _location;
         try{
-            this.pieceImage = new Image(new FileInputStream("chess_" + this.color + "_pawn.png"));
+            this.pieceImage = new Image("chess_" + this.color + "_pawn.png");
             this.pieceImageView = new ImageView(this.pieceImage);
+            this.pieceImageView.setPreserveRatio(true);
         } catch(Exception e) {
             System.out.println("Error creating pawn image");
         }

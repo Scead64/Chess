@@ -7,8 +7,11 @@ public class Square {
     Piece p;
     StackPane sp;
     Rectangle sq;
+    int location;
 
-    public Square(){
+    public Square(int _location){
+        this.location = _location;
+        this.p = null;
     }
 
 
@@ -24,6 +27,10 @@ public class Square {
         return this.sp;
     }
 
+    public int getLocation(){
+        return this.location;
+    }
+
     public void setPiece(Piece _p){
         this.p = _p;
     }
@@ -34,5 +41,9 @@ public class Square {
 
     public void setPane(StackPane _sp){
         this.sp = _sp;
+    }
+
+    public boolean hasPiece(){
+        return this.p != null;
     }
 }

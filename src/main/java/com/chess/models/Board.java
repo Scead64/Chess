@@ -9,7 +9,7 @@ public class Board {
     public Board(){
         squares = new Square[NUM_SQUARES];
         for(int i = 0; i < squares.length; i++){
-            squares[i] = new Square();
+            squares[i] = new Square(i);
         }
     }
 
