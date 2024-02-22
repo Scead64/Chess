@@ -36,105 +36,63 @@ public class View {
     }
 
     public static void drawPieces(Board board){
-        setPawns(board, "black", Piece.PAWN_START);
-        setPawns(board, "white", Piece.PAWN_START);
+        for(int pawnIndex = 0; pawnIndex < Piece.PAWN_START.length; pawnIndex++){
+            int loc = Piece.PAWN_START[pawnIndex];
+            Piece pWhite = new Pawn("white", loc);
+            Piece pBlack = new Pawn("black", loc);
+            setPiece(board, pWhite, "white", loc);
+            setPiece(board, pBlack, "black", loc);
+        }
 
-        setKnights(board, "black", Piece.ROOK_START);
-        setKnights(board, "white", Piece.ROOK_START);
+        for(int knightIndex = 0; knightIndex < Piece.KNIGHT_START.length; knightIndex++){
+            int loc = Piece.KNIGHT_START[knightIndex];
+            Piece pWhite = new Knight("white", loc);
+            Piece pBlack = new Knight("black", loc);
+            setPiece(board, pWhite, "white", loc);
+            setPiece(board, pBlack, "black", loc);
+        }
 
-        setBishops(board, "black", Piece.BISHOP_START);
-        setBishops(board, "white", Piece.BISHOP_START);
+        for(int bishopIndex = 0; bishopIndex < Piece.BISHOP_START.length; bishopIndex++){
+            int loc = Piece.BISHOP_START[bishopIndex];
+            Piece pWhite = new Bishop("white", loc);
+            Piece pBlack = new Bishop("black", loc);
+            setPiece(board, pWhite, "white", loc);
+            setPiece(board, pBlack, "black", loc);
+        }
 
-        setRooks(board, "black", Piece.KNIGHT_START);
-        setRooks(board, "white", Piece.KNIGHT_START);
+        for(int rookIndex = 0; rookIndex < Piece.ROOK_START.length; rookIndex++){
+            int loc = Piece.ROOK_START[rookIndex];
+            Piece pWhite = new Rook("white", loc);
+            Piece pBlack = new Rook("black", loc);
+            setPiece(board, pWhite, "white", loc);
+            setPiece(board, pBlack, "black", loc);
+        }
 
-        setQueens(board, "black", Piece.KING_START);
-        setQueens(board, "white", Piece.KING_START);
+        for(int queenIndex = 0; queenIndex < Piece.QUEEN_START.length; queenIndex++){
+            int loc = Piece.QUEEN_START[queenIndex];
+            Piece pWhite = new Queen("white", loc);
+            Piece pBlack = new Queen("black", loc);
+            setPiece(board, pWhite, "white", loc);
+            setPiece(board, pBlack, "black", loc);
+        }
 
-        setKings(board, "black", Piece.QUEEN_START);
-        setKings(board, "white", Piece.QUEEN_START);
-
-    }
-
-    private static void setPawns(Board board, String color, int[] locations){
-        for(int loc: locations){
-            if(color.equals("white")){
-                loc = flipCoordinate(loc);
-            }
-            Piece p = new Pawn(color, loc);
-            StackPane sp = board.getSquare(loc).getPane();
-            p.getImageView().setFitHeight(SQUARE_SIZE);
-            sp.getChildren().add(p.getImageView());
-
+        for(int kingIndex = 0; kingIndex < Piece.KING_START.length; kingIndex++){
+            int loc = Piece.KING_START[kingIndex];
+            Piece pWhite = new King("white", loc);
+            Piece pBlack = new King("black", loc);
+            setPiece(board, pWhite, "white", loc);
+            setPiece(board, pBlack, "black", loc);
         }
     }
 
-    private static void setBishops(Board board, String color, int[] locations){
-        for(int loc: locations){
-            if(color.equals("white")){
-                loc = flipCoordinate(loc);
-            }
-            Piece p = new Bishop(color, loc);
-            StackPane sp = board.getSquare(loc).getPane();
-            p.getImageView().setFitHeight(SQUARE_SIZE);
-            sp.getChildren().add(p.getImageView());
-
+    private static void setPiece(Board board, Piece p, String color, int loc){
+        if(color.equals("white")){
+            loc = flipCoordinate(loc);
         }
+        StackPane sp = board.getSquare(loc).getPane();
+        p.getImageView().setFitHeight(SQUARE_SIZE);
+        sp.getChildren().add(p.getImageView());
     }
-
-    private static void setRooks(Board board, String color, int[] locations){
-        for(int loc: locations){
-            if(color.equals("white")){
-                loc = flipCoordinate(loc);
-            }
-            Piece p = new Rook(color, loc);
-            StackPane sp = board.getSquare(loc).getPane();
-            p.getImageView().setFitHeight(SQUARE_SIZE);
-            sp.getChildren().add(p.getImageView());
-
-        }
-    }
-    
-    private static void setKnights(Board board, String color, int[] locations){
-        for(int loc: locations){
-            if(color.equals("white")){
-                loc = flipCoordinate(loc);
-            }
-            Piece p = new Knight(color, loc);
-            StackPane sp = board.getSquare(loc).getPane();
-            p.getImageView().setFitHeight(SQUARE_SIZE);
-            sp.getChildren().add(p.getImageView());
-
-        }
-    }
-
-    private static void setQueens(Board board, String color, int[] locations){
-        for(int loc: locations){
-            if(color.equals("white")){
-                loc = flipCoordinate(loc);
-            }
-            Piece p = new Queen(color, loc);
-            StackPane sp = board.getSquare(loc).getPane();
-            p.getImageView().setFitHeight(SQUARE_SIZE);
-            sp.getChildren().add(p.getImageView());
-
-        }
-    }
-
-    private static void setKings(Board board, String color, int[] locations){
-        for(int loc: locations){
-            if(color.equals("white")){
-                loc = flipCoordinate(loc);
-            }
-            Piece p = new Pawn(color, loc);
-            StackPane sp = board.getSquare(loc).getPane();
-            p.getImageView().setFitHeight(SQUARE_SIZE);
-            sp.getChildren().add(p.getImageView());
-
-        }
-    }
-
-
     
 
     private static int flipCoordinate(int n){
