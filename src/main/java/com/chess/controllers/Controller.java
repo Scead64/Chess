@@ -28,8 +28,8 @@ public class Controller {
         for(int i = 0; i < Board.NUM_SQUARES; i++){
             Square sq = board.getSquare(i);
             sq.getPane().setOnMouseClicked(e -> {
-                if(selectedPiece == null && (sq.getPiece().getMoves(board).size() > 0)){
-                    if(sq.hasPiece()){
+                if(selectedPiece == null){
+                    if(sq.hasPiece() && (sq.getPiece().getMoves(board).size() > 0)){
                         if((turnIsWhite && sq.getPiece().getColor().equals("white")) || 
                             (!turnIsWhite && sq.getPiece().getColor().equals("black"))){
                             selectPiece(sq);
@@ -51,10 +51,8 @@ public class Controller {
     public static void selectPiece(Square sq){
         selectedPiece = sq.getPiece();
         for(int loc : sq.getPiece().getMoves(board)){
-            if(verifyMove(loc)){
-                moveSet.add(board.getSquare(loc));
-                View.highlightSquare(board.getSquare(loc));
-            }
+            moveSet.add(board.getSquare(loc));
+            View.highlightSquare(board.getSquare(loc));
         }
     }
 
@@ -77,33 +75,5 @@ public class Controller {
         deselectPiece(selectedPiece);
         sq.getPiece().setLocation(sq.getLocation());
         turnIsWhite = !turnIsWhite;
-    }
-
-    /*
-     * Checks if a move is valid.
-     * A move can be invalid for one of three reasons:
-     * 
-     * 1. A square contains a piece of the same color
-     * 2. Moving the piece places the king of the same color in check.
-     * 3. The king is already in check, and the move does not solve this.
-     * 
-     * @returns true if viable, false otherwise.
-     */
-    public static boolean verifyMove(int location){
-        Piece p = board.getPiece(location);
-        if(p != null){
-            if (p.getColor().equals(selectedPiece.getColor())){
-                return false;
-            }
-        }
-
-        //TODO: add checks for steps 2 & 3
-        return true;
-    }
-
-    public static void removeMovesInDireciton(int direction, int maxDirection){
-        for(int i = 1; i <= maxDirection; i++){
-            removeSet.remove(board.getSquare(direction*i));
-        }
     }
 }
