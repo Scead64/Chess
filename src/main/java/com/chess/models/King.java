@@ -19,7 +19,7 @@ public class King extends Piece{
     }
     
 
-    public ArrayList<Integer> getMoves(){
+    public ArrayList<Integer> getMoves(Board board){
         ArrayList<Integer> moves = new ArrayList<>();
         int maxWest = this.location % 8, maxNorth = this.location / 8, maxEast = 7-maxWest, maxSouth = 7-maxNorth;
         if(maxNorth > 0){

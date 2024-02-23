@@ -16,6 +16,7 @@ public class Controller {
     public static Piece selectedPiece = null;
     public static boolean turnIsWhite = true;
     public static ArrayList<Square> moveSet = new ArrayList<Square>();
+    public static ArrayList<Square> removeSet = new ArrayList<Square>();
 
     public static void setBoard(Group root){
         board = new Board();
@@ -27,11 +28,12 @@ public class Controller {
         for(int i = 0; i < Board.NUM_SQUARES; i++){
             Square sq = board.getSquare(i);
             sq.getPane().setOnMouseClicked(e -> {
-                if(selectedPiece == null){
+                if(selectedPiece == null && (sq.getPiece().getMoves(board).size() > 0)){
                     if(sq.hasPiece()){
                         if((turnIsWhite && sq.getPiece().getColor().equals("white")) || 
                             (!turnIsWhite && sq.getPiece().getColor().equals("black"))){
-                            selectPiece(sq);                        
+                            selectPiece(sq);
+                            System.out.println("hihi");
                         }
                     }
                 } else {
@@ -48,17 +50,17 @@ public class Controller {
     
     public static void selectPiece(Square sq){
         selectedPiece = sq.getPiece();
-        for(int loc : sq.getPiece().getMoves()){
-            // if(verifyMove(loc)){
+        for(int loc : sq.getPiece().getMoves(board)){
+            if(verifyMove(loc)){
                 moveSet.add(board.getSquare(loc));
                 View.highlightSquare(board.getSquare(loc));
-            // }
+            }
         }
     }
 
     public static void deselectPiece(Piece p){
-        for(int loc : p.getMoves()){
-            View.unhighlightSquare(board.getSquare(loc));
+        for(Square sq : moveSet){
+            View.unhighlightSquare(sq);
         }
         selectedPiece = null;
         moveSet.clear();
@@ -97,5 +99,11 @@ public class Controller {
 
         //TODO: add checks for steps 2 & 3
         return true;
+    }
+
+    public static void removeMovesInDireciton(int direction, int maxDirection){
+        for(int i = 1; i <= maxDirection; i++){
+            removeSet.remove(board.getSquare(direction*i));
+        }
     }
 }

@@ -18,19 +18,27 @@ public class Pawn extends Piece{
         }
     }
     
-    public ArrayList<Integer> getMoves(){
+    public ArrayList<Integer> getMoves(Board board){
         ArrayList<Integer> moves = new ArrayList<>();
-        if(this.color.equals("white")){
-            moves.add(this.location-8);
-
+        int move = this.location-8;
+        if(this.color.equals("black")){
+            move +=16;
+        }
+        
+        if(!board.getSquare(move).hasPiece()){
+            moves.add(move);
+            
             //Check if pawn has not moved yet
-            if(this.location/8 == 6){
-                moves.add(this.location-16);
-            }
-        } else {
-            moves.add(this.location+8);
-            if(this.location/8 == 1){
-                moves.add(this.location+16);
+            if(this.color.equals("white") && (this.location/8 == 6)){
+                move-=8;
+                if(!board.getSquare(move).hasPiece()){
+                    moves.add(move);
+                }
+            } else if (this.location/8 == 1){
+                move+=8;
+                if(!board.getSquare(move).hasPiece()){
+                    moves.add(move);
+                }
             }
         }
         return moves;

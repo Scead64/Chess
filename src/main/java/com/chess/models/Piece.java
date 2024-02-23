@@ -17,10 +17,6 @@ public abstract class Piece {
     Image pieceImage;
     ImageView pieceImageView;
 
-    Piece(){
-
-    }
-
     //Moves peice from its location to new coordinate n.
 
     public ImageView getImageView(){
@@ -41,7 +37,7 @@ public abstract class Piece {
     
 
 
-    public abstract ArrayList<Integer> getMoves();
+    public abstract ArrayList<Integer> getMoves(Board board);
     
 
 
