@@ -29,7 +29,10 @@ public class Controller {
             sq.getPane().setOnMouseClicked(e -> {
                 if(selectedPiece == null){
                     if(sq.hasPiece()){
-                        selectPiece(sq);                        
+                        if((turnIsWhite && sq.getPiece().getColor().equals("white")) || 
+                            (!turnIsWhite && sq.getPiece().getColor().equals("black"))){
+                            selectPiece(sq);                        
+                        }
                     }
                 } else {
                     if(moveSet.contains(sq)){
@@ -44,11 +47,13 @@ public class Controller {
     }
     
     public static void selectPiece(Square sq){
-        for(int loc : sq.getPiece().getMoves()){
-            moveSet.add(board.getSquare(loc));
-            View.highlightSquare(board.getSquare(loc));
-        }
         selectedPiece = sq.getPiece();
+        for(int loc : sq.getPiece().getMoves()){
+            // if(verifyMove(loc)){
+                moveSet.add(board.getSquare(loc));
+                View.highlightSquare(board.getSquare(loc));
+            // }
+        }
     }
 
     public static void deselectPiece(Piece p){
@@ -69,6 +74,7 @@ public class Controller {
         sq.setPiece(selectedPiece);
         deselectPiece(selectedPiece);
         sq.getPiece().setLocation(sq.getLocation());
+        turnIsWhite = !turnIsWhite;
     }
 
     /*
@@ -81,7 +87,7 @@ public class Controller {
      * 
      * @returns true if viable, false otherwise.
      */
-    public boolean verifyMove(int location){
+    public static boolean verifyMove(int location){
         Piece p = board.getPiece(location);
         if(p != null){
             if (p.getColor().equals(selectedPiece.getColor())){
