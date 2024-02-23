@@ -111,6 +111,6 @@ public class View {
 
     public static void unhighlightSquare(Square sq){
         // if(sq.getLocation() )
-        sq.getSquare().setFill(Color.BLACK);
+        sq.getSquare().setFill(Color.GRAY);
     }
 }

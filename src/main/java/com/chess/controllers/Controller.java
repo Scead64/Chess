@@ -1,6 +1,8 @@
 package com.chess.controllers;
 
 
+import java.util.ArrayList;
+
 import com.chess.models.Board;
 import com.chess.models.Piece;
 import com.chess.models.Square;
@@ -13,6 +15,7 @@ public class Controller {
     public static Board board;
     public static Piece selectedPiece = null;
     public static boolean turnIsWhite = true;
+    public static ArrayList<Square> moveSet = new ArrayList<Square>();
 
     public static void setBoard(Group root){
         board = new Board();
@@ -24,20 +27,25 @@ public class Controller {
         for(int i = 0; i < Board.NUM_SQUARES; i++){
             Square sq = board.getSquare(i);
             sq.getPane().setOnMouseClicked(e -> {
-                if(sq.hasPiece()){
-                    if(selectedPiece == null){
+                if(selectedPiece == null){
+                    if(sq.hasPiece()){
                         selectPiece(sq);                        
+                    }
+                } else {
+                    if(moveSet.contains(sq)){
+                        movePiece(sq);
                     } else {
                         deselectPiece(selectedPiece);
-                        selectPiece(sq);
-                    }
-                } 
+                    }    
+                }
+                
             });
         }
     }
     
     public static void selectPiece(Square sq){
         for(int loc : sq.getPiece().getMoves()){
+            moveSet.add(board.getSquare(loc));
             View.highlightSquare(board.getSquare(loc));
         }
         selectedPiece = sq.getPiece();
@@ -48,6 +56,19 @@ public class Controller {
             View.unhighlightSquare(board.getSquare(loc));
         }
         selectedPiece = null;
+        moveSet.clear();
+    }
+
+    public static void movePiece(Square sq){
+        if(sq.hasPiece()){
+            sq.getPane().getChildren().remove(1);
+        }
+        board.getSquare(selectedPiece.getLocation()).getPane().getChildren().remove(1);
+        board.getSquare(selectedPiece.getLocation()).setPiece(null);
+        sq.getPane().getChildren().add(selectedPiece.getImageView());
+        sq.setPiece(selectedPiece);
+        deselectPiece(selectedPiece);
+        sq.getPiece().setLocation(sq.getLocation());
     }
 
     /*
