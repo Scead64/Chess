@@ -17,14 +17,19 @@ public class Controller {
     public static boolean turnIsWhite = true;
     public static ArrayList<Square> moveSet = new ArrayList<Square>();
     public static ArrayList<Square> removeSet = new ArrayList<Square>();
+    public static Piece whiteKing = null;
+    public static Piece blackKing = null;
+    public static boolean whiteInCheck = false, blackInCheck = false;
 
     public static void setBoard(Group root){
         board = new Board();
         System.out.println("Entering View");
         View.drawBoard(root, board);
         System.out.println("Exiting View");
-
         View.drawPieces(board);
+        blackKing = board.getSquare(Piece.KING_START[0]).getPiece();
+        whiteKing = board.getSquare(View.flipCoordinate(Piece.KING_START[0])).getPiece();
+
         for(int i = 0; i < Board.NUM_SQUARES; i++){
             Square sq = board.getSquare(i);
             sq.getPane().setOnMouseClicked(e -> {
@@ -33,7 +38,6 @@ public class Controller {
                         if((turnIsWhite && sq.getPiece().getColor().equals("white")) || 
                             (!turnIsWhite && sq.getPiece().getColor().equals("black"))){
                             selectPiece(sq);
-                            System.out.println("hihi");
                         }
                     }
                 } else {
@@ -74,6 +78,17 @@ public class Controller {
         sq.setPiece(selectedPiece);
         deselectPiece(selectedPiece);
         sq.getPiece().setLocation(sq.getLocation());
+        for(int loc : sq.getPiece().getMoves(board)){
+            if(board.getSquare(loc).hasPiece() && board.getSquare(loc).getPiece().equals(whiteKing)){
+                whiteInCheck = true;
+                System.out.println("white in check");
+                break;
+            } else if(board.getSquare(loc).hasPiece() && board.getSquare(loc).getPiece().equals(blackKing)){
+                blackInCheck = true;
+                System.out.println("black in check");
+                break;
+            }
+        }
         turnIsWhite = !turnIsWhite;
     }
 }

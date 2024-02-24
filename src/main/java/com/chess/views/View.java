@@ -97,7 +97,7 @@ public class View {
     }
     
 
-    private static int flipCoordinate(int n){
+    public static int flipCoordinate(int n){
         int row = n/8;
         int col = n%8;
         int newRow = 8*(7-row);

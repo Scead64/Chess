@@ -24,37 +24,37 @@ public class Knight extends Piece{
 
         if(maxNorth >= 2){
             if(maxWest > 0){
-                moves.add(this.location-17);
+                MoveHelper.verifyColor(moves, color, this.location-17, board.getSquare(this.location-17));
             }
             if(maxEast > 0){
-                moves.add(this.location-15);
+                MoveHelper.verifyColor(moves, color, this.location-15, board.getSquare(this.location-15));
             }
         }
 
         if(maxSouth >= 2){
             if(maxWest > 0){
-                moves.add(this.location+15);
+                MoveHelper.verifyColor(moves, color, this.location+15, board.getSquare(this.location+15));
             }
             if(maxEast > 0){
-                moves.add(this.location+17);
+                MoveHelper.verifyColor(moves, color, this.location+17, board.getSquare(this.location+17));
             }
         }
 
         if(maxWest >= 2){
             if(maxNorth > 0){
-                moves.add(this.location-10);
+                MoveHelper.verifyColor(moves, color, this.location-10, board.getSquare(this.location-10));
             }
             if(maxSouth > 0){
-                moves.add(this.location+6);
+                MoveHelper.verifyColor(moves, color, this.location+6, board.getSquare(this.location+6));
             }
         }
 
         if(maxEast >= 2){
             if(maxNorth > 0){
-                moves.add(this.location-6);
+                MoveHelper.verifyColor(moves, color, this.location-6, board.getSquare(this.location-6));
             }
             if(maxSouth > 0){
-                moves.add(this.location+10);
+                MoveHelper.verifyColor(moves, color, this.location+10, board.getSquare(this.location+10));
             }
         }
         
