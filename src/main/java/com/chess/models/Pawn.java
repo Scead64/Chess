@@ -25,20 +25,18 @@ public class Pawn extends Piece{
             move +=16;
         }
         
+        if((this.location%8 != 0) && board.getSquare(move - 1).hasPiece() && !board.getSquare(move - 1).getPiece().getColor().equals(this.color)){
+            moves.add(move-1);
+        }
+        if((this.location%8 != 7) && board.getSquare(move + 1).hasPiece() && !board.getSquare(move + 1).getPiece().getColor().equals(this.color)){
+            moves.add(move+1);
+        }
         if(!board.getSquare(move).hasPiece()){
             moves.add(move);
-            
-            //Check if pawn has not moved yet
-            if(this.color.equals("white") && (this.location/8 == 6)){
-                move-=8;
-                if(!board.getSquare(move).hasPiece()){
-                    moves.add(move);
-                }
-            } else if (this.location/8 == 1){
-                move+=8;
-                if(!board.getSquare(move).hasPiece()){
-                    moves.add(move);
-                }
+            if(this.color.equals("white") && (this.location/8 == 6) && !board.getSquare(move-8).hasPiece()){
+                moves.add(move-8);
+            } else if(this.color.equals("black") && (this.location/8 == 1) && !board.getSquare(move+8).hasPiece()){
+                moves.add(move+8);
             }
         }
         return moves;
