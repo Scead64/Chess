@@ -3,13 +3,18 @@ package com.chess.models;
 import java.util.ArrayList;
 
 public class MoveHelper{
+    public static final int NORTH = -8;
+    public static final int SOUTH = 8;
+    public static final int EAST = 1;
+    public static final int WEST = -1;
     
     public static ArrayList<Integer> getCardinals(int location, String color, Board board){
+        int maxNorth = location/8, maxEast = 7 - (location % 8),  maxSouth = 7-(location/8), maxWest = location % 8;
         ArrayList<Integer> moves = new ArrayList<Integer>();
-        moves.addAll(getNorth(location, color, board));
-        moves.addAll(getSouth(location, color, board));
-        moves.addAll(getEast(location, color, board));
-        moves.addAll(getWest(location, color, board));
+        moves.addAll(getCardinalDirection(location, NORTH, maxNorth, color, board));
+        moves.addAll(getCardinalDirection(location, EAST, maxEast, color, board));
+        moves.addAll(getCardinalDirection(location, SOUTH, maxSouth, color, board));
+        moves.addAll(getCardinalDirection(location, WEST, maxWest, color, board));
         return moves;
     }
 
@@ -22,44 +27,10 @@ public class MoveHelper{
         return moves;
     }
     
-    public static ArrayList<Integer> getNorth(int location, String color, Board board){
+    public static ArrayList<Integer> getCardinalDirection(int location, int direction, int maxDistance, String color, Board board){
         ArrayList<Integer> moves = new ArrayList<Integer>();
-        int maxNorth = location/8;
-        for(int i = 1; i <= maxNorth; i++){
-            if(verifyColor(moves, color, location - (i*8), board.getSquare(location - (i*8)))){
-                break;
-            }
-        }
-        return moves;
-    }
-
-    public static ArrayList<Integer> getSouth(int location, String color, Board board){
-        ArrayList<Integer> moves = new ArrayList<Integer>();
-        int maxSouth = 7-(location/8);
-        for(int i = 1; i <= maxSouth; i++){
-            if(verifyColor(moves, color, location + (i*8), board.getSquare(location + (i*8)))){
-                break;
-            }
-        }
-        return moves;
-    }
-
-    public static ArrayList<Integer> getWest(int location, String color, Board board){
-        ArrayList<Integer> moves = new ArrayList<Integer>();
-        int maxWest = location % 8;
-        for(int i = 1; i <= maxWest; i++){
-            if(verifyColor(moves, color, location - i, board.getSquare(location - i))){
-                break;
-            }
-        }
-        return moves;
-    }
-
-    public static ArrayList<Integer> getEast(int location, String color, Board board){
-        ArrayList<Integer> moves = new ArrayList<Integer>();
-        int maxEast = 7-(location % 8);
-        for(int i = 1; i <= maxEast; i++){
-            if(verifyColor(moves, color, location + i, board.getSquare(location + i))){
+        for(int i = 1; i <= maxDistance; i++){
+            if(verifyColor(moves, color, location + (i*direction), board.getSquare(location + (i*direction)))){
                 break;
             }
         }
