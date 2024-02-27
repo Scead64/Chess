@@ -10,6 +10,10 @@ import javafx.scene.shape.Rectangle;
 public class View {
     
     public static final int SQUARE_SIZE = 100;
+    public static final Color COLOR_1 = Color.ALICEBLUE;
+    public static final Color COLOR_2 = Color.SANDYBROWN;
+    public static final Color HIGHLIGHT = Color.AQUA;
+    public static final Color SELECTED = Color.GOLD;
 
     public static void drawBoard( Group root, Board board){
         System.out.println("Entering View Loop");
@@ -18,9 +22,9 @@ public class View {
             int row = i / 8, col = i % 8;
             Rectangle squareDrawing = new Rectangle(0,0,SQUARE_SIZE,SQUARE_SIZE);
             if((row+i)%2 == 0){
-                squareDrawing.setFill(Color.ALICEBLUE);
+                squareDrawing.setFill(COLOR_1);
             } else {
-                squareDrawing.setFill(Color.SANDYBROWN);
+                squareDrawing.setFill(COLOR_2);
             }
             sq.setSquare(squareDrawing);
             StackPane sp = new StackPane(squareDrawing);
@@ -106,11 +110,15 @@ public class View {
     }
 
     public static void highlightSquare(Square sq){
-        sq.getSquare().setFill(Color.AQUA);
+        sq.getSquare().setFill(HIGHLIGHT);
     }
 
     public static void unhighlightSquare(Square sq){
-        // if(sq.getLocation() )
-        sq.getSquare().setFill(Color.GRAY);
+        int loc = sq.getLocation();
+        if((loc+(loc/8)) % 2 == 0){
+            sq.getSquare().setFill(COLOR_1);
+        } else {
+            sq.getSquare().setFill(COLOR_2);
+        }
     }
 }
