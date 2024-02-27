@@ -23,28 +23,29 @@ public class King extends Piece{
         ArrayList<Integer> moves = new ArrayList<>();
         int maxWest = this.location % 8, maxNorth = this.location / 8, maxEast = 7-maxWest, maxSouth = 7-maxNorth;
         if(maxNorth > 0){
-            moves.add(this.location-8);
+            MoveHelper.verifyMove(moves, this.color, this.location+Board.NORTH, board.getSquare(this.location+Board.NORTH));
             if(maxEast > 0){
-                moves.add(this.location-7);
+                MoveHelper.verifyMove(moves, this.color, this.location+Board.NORTH_EAST, board.getSquare(this.location+Board.NORTH_EAST));
             }
             if(maxWest > 0){
-                moves.add(this.location-9);
+                MoveHelper.verifyMove(moves, this.color, this.location+Board.NORTH_WEST, board.getSquare(this.location+Board.NORTH_WEST));
             }
         }
         if(maxSouth > 0){
-            moves.add(this.location+8);
+            MoveHelper.verifyMove(moves, this.color, this.location+Board.SOUTH, board.getSquare(this.location+Board.SOUTH));
             if(maxEast > 0){
-                moves.add(this.location+9);
+                MoveHelper.verifyMove(moves, this.color, this.location+Board.SOUTH_EAST, board.getSquare(this.location+Board.SOUTH_EAST));
             }
             if(maxWest > 0){
-                moves.add(this.location+7);
+                MoveHelper.verifyMove(moves, this.color, this.location+Board.SOUTH_WEST, board.getSquare(this.location+Board.SOUTH_WEST));
+
             }
         }
         if(maxEast > 0){
-            moves.add(this.location+1);
+            MoveHelper.verifyMove(moves, this.color, this.location+Board.EAST, board.getSquare(this.location+Board.EAST));
         }
         if(maxWest > 0){
-            moves.add(this.location-1);
+            MoveHelper.verifyMove(moves, this.color, this.location+Board.WEST, board.getSquare(this.location+Board.WEST));
         }
         return moves;
     }
