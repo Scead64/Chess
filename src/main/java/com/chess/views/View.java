@@ -113,6 +113,10 @@ public class View {
         sq.getSquare().setFill(HIGHLIGHT);
     }
 
+    public static void hightlightSelectedSquare(Square sq){
+        sq.getSquare().setFill(SELECTED);
+    }
+
     public static void unhighlightSquare(Square sq){
         int loc = sq.getLocation();
         if((loc+(loc/8)) % 2 == 0){
