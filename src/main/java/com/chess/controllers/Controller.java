@@ -79,16 +79,28 @@ public class Controller {
             System.out.println(p.getClass());
             System.out.println(p.getLocation());
         }
+
+        // If destination square has a piece, remove it (i.e. "take" the opponents piece)
         if(sq.hasPiece()){
             sq.getPane().getChildren().remove(1);
         }
+
+        // Remove Piece and image from its current square
         board.getSquare(selectedPiece.getLocation()).getPane().getChildren().remove(1);
         board.getSquare(selectedPiece.getLocation()).setPiece(null);
+
+        // Add piece and image to new square
         sq.getPane().getChildren().add(selectedPiece.getImageView());
         sq.setPiece(selectedPiece);
+
+        // Unhighlight squares
         deselectPiece(selectedPiece);
+
+        // Set the piece's new location and check if it puts opponents king in check
         sq.getPiece().setLocation(sq.getLocation());
         checkForChecks(sq.getPiece());
+
+        // Change the turn
         turnIsWhite = !turnIsWhite;
     }
 
