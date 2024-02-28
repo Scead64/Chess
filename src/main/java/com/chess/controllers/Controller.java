@@ -54,46 +54,7 @@ public class Controller {
     
 
     public static void selectPiece(Square sq){
-        selectedPiece = sq.getPiece();
-        if(selectedPiece != whiteKing && selectedPiece != blackKing){
-            int direction = 0;
-            Piece king;
-            if(turnIsWhite){
-                king = whiteKing;
-            } else {
-                king = blackKing;
-            }
-    
-            //Check if piece aligns with the king along a line
-            direction = inLineWithKing(king, selectedPiece.getLocation());
-            System.out.println(direction);
-
-            //If it aligns, check if it "blocks" the king. i.e. the first piece in the direction of the king on the same line is the king
-            if(direction != 0 && MoveHelper.getFirstPieceInDirection(selectedPiece.getLocation(), direction, board) == king){
-
-                //get the piece on the opposite side of the line
-                Piece p = MoveHelper.getFirstPieceInDirection(selectedPiece.getLocation(), direction*-1, board);
-                System.out.println(p);
-
-                //Check if there is such a piece and if it's the enemy color
-                if(p != null && !p.getColor().equals(king.getColor())){
-                    System.out.println("Enemy Piece!");
-                    //Check if the piece threatens the king.
-                    if(Queen.class.isInstance(p) || Bishop.class.isInstance(p)){
-                        if(direction == Board.NORTH_EAST || direction == Board.NORTH_WEST || direction == Board.SOUTH_EAST || direction == Board.SOUTH_WEST){
-                            //Moving away from line causes discovered check!
-                            System.out.println("Potential Discovered Check");
-                        }
-                    }
-                    if (Queen.class.isInstance(p) || Rook.class.isInstance(p)){
-                        if(direction == Board.NORTH || direction == Board.WEST || direction == Board.EAST || direction == Board.SOUTH){
-                            //Moving away from line causes discovered check!
-                            System.out.println("Potential Discovered Check");
-                        }
-                    }
-                }
-            }
-        }
+        
         
 
         for(int loc : sq.getPiece().getMoves(board)){
@@ -159,20 +120,47 @@ public class Controller {
         }  
     }
 
-    // public static void checkForDiscoveredChecks(Piece p, int loc){
-    //     int maxNorth = loc/Board.NUM_ROWS,  maxSouth = Board.ROW_MAX_INDEX-(maxNorth), maxWest = loc % Board.NUM_ROWS, maxEast = Board.ROW_MAX_INDEX - maxWest;
+    public static void checkForDiscoveredChecks(Piece p){
+        if(p != whiteKing && p != blackKing){
+            int direction = 0;
+            Piece king;
+            if(turnIsWhite){
+                king = whiteKing;
+            } else {
+                king = blackKing;
+            }
+    
+            //Check if piece aligns with the king along a line
+            direction = inLineWithKing(king, p.getLocation());
+            System.out.println(direction);
 
-    //     if(Queen.class.isInstance(p) || Rook.class.isInstance(p)){
+            //If it aligns, check if it "blocks" the king. i.e. the first piece in the direction of the king on the same line is the king
+            if(direction != 0 && MoveHelper.getFirstPieceInDirection(p.getLocation(), direction, board) == king){
 
-    //         verifyFirstPieceInDirection(loc, Board.NORTH, maxWest);
-    //     }
-    //     if(Queen.class.isInstance(p) || Bishop.class.isInstance(p)){
-            
-    //     }
-    //     if(!Knight.class.isInstance(p)){
+                //get the piece on the opposite side of the line
+                Piece p2 = MoveHelper.getFirstPieceInDirection(p.getLocation(), direction*-1, board);
+                System.out.println(p2);
 
-    //     }
-    // }
+                //Check if there is such a piece and if it's the enemy color
+                if(p2 != null && !p2.getColor().equals(king.getColor())){
+                    System.out.println("Enemy Piece!");
+                    //Check if the piece threatens the king.
+                    if(Queen.class.isInstance(p2) || Bishop.class.isInstance(p2)){
+                        if(direction == Board.NORTH_EAST || direction == Board.NORTH_WEST || direction == Board.SOUTH_EAST || direction == Board.SOUTH_WEST){
+                            //Moving away from line causes discovered check!
+                            System.out.println("Potential Discovered Check");
+                        }
+                    }
+                    if (Queen.class.isInstance(p2) || Rook.class.isInstance(p2)){
+                        if(direction == Board.NORTH || direction == Board.WEST || direction == Board.EAST || direction == Board.SOUTH){
+                            //Moving away from line causes discovered check!
+                            System.out.println("Potential Discovered Check");
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Gets the direction of the given location in relation to the associated King.
