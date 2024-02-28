@@ -34,7 +34,7 @@ public class Controller {
             Square sq = board.getSquare(i);
             sq.getPane().setOnMouseClicked(e -> {
                 if(selectedPiece == null){
-                    if(sq.hasPiece() && (sq.getPiece().getMoves(board).size() > 0)){
+                    if(sq.hasPiece() && getPossibleMoves(sq)){
                         if((turnIsWhite && sq.getPiece().getColor().equals("white")) || 
                             (!turnIsWhite && sq.getPiece().getColor().equals("black"))){
                             selectPiece(sq);
@@ -52,14 +52,35 @@ public class Controller {
         }
     }
     
-
-    public static void selectPiece(Square sq){
+    public static boolean getPossibleMoves(Square sq){
+        moveSet.clear();
         
-        
-
         for(int loc : sq.getPiece().getMoves(board)){
             moveSet.add(board.getSquare(loc));
-            View.highlightSquare(board.getSquare(loc));
+        }
+        
+        int line = checkForDiscoveredChecks(sq.getPiece());
+        
+        //potential Discovered check
+        System.out.println(line);
+        if(line != 0){
+            for(int i = 0; i < moveSet.size(); i++){
+                if((sq.getLocation() - moveSet.get(i).getLocation()) % line != 0){
+                    System.out.println(moveSet.get(i).getLocation());
+                    moveSet.remove(i);
+                    i--;
+                }
+            }
+        }
+
+        return moveSet.size() > 0 ? true : false;
+    }
+
+    public static void selectPiece(Square sq){
+        selectedPiece = sq.getPiece();
+
+        for(Square sqChoice : moveSet){
+            View.highlightSquare(sqChoice);
         }
         View.hightlightSelectedSquare(sq);
     }
@@ -120,7 +141,7 @@ public class Controller {
         }  
     }
 
-    public static void checkForDiscoveredChecks(Piece p){
+    public static int checkForDiscoveredChecks(Piece p){
         if(p != whiteKing && p != blackKing){
             int direction = 0;
             Piece king;
@@ -132,14 +153,14 @@ public class Controller {
     
             //Check if piece aligns with the king along a line
             direction = inLineWithKing(king, p.getLocation());
-            System.out.println(direction);
+            // System.out.println(direction);
 
             //If it aligns, check if it "blocks" the king. i.e. the first piece in the direction of the king on the same line is the king
             if(direction != 0 && MoveHelper.getFirstPieceInDirection(p.getLocation(), direction, board) == king){
 
                 //get the piece on the opposite side of the line
                 Piece p2 = MoveHelper.getFirstPieceInDirection(p.getLocation(), direction*-1, board);
-                System.out.println(p2);
+                // System.out.println(p2);
 
                 //Check if there is such a piece and if it's the enemy color
                 if(p2 != null && !p2.getColor().equals(king.getColor())){
@@ -148,18 +169,19 @@ public class Controller {
                     if(Queen.class.isInstance(p2) || Bishop.class.isInstance(p2)){
                         if(direction == Board.NORTH_EAST || direction == Board.NORTH_WEST || direction == Board.SOUTH_EAST || direction == Board.SOUTH_WEST){
                             //Moving away from line causes discovered check!
-                            System.out.println("Potential Discovered Check");
+                            return direction;
                         }
                     }
                     if (Queen.class.isInstance(p2) || Rook.class.isInstance(p2)){
                         if(direction == Board.NORTH || direction == Board.WEST || direction == Board.EAST || direction == Board.SOUTH){
                             //Moving away from line causes discovered check!
-                            System.out.println("Potential Discovered Check");
+                            return direction;
                         }
                     }
                 }
             }
         }
+        return 0;
     }
 
     /**
