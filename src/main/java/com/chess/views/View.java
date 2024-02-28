@@ -40,7 +40,7 @@ public class View {
     public static void drawPieces(Board board){
         for(int pawnIndex = 0; pawnIndex < Piece.PAWN_START.length; pawnIndex++){
             int blackLoc = Piece.PAWN_START[pawnIndex];
-            int whiteLoc = flipCoordinate(blackLoc);
+            int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Pawn("black", blackLoc);
             Piece pWhite = new Pawn("white", whiteLoc);
             setPiece(board, pBlack, "black", blackLoc);
@@ -49,7 +49,7 @@ public class View {
 
         for(int knightIndex = 0; knightIndex < Piece.KNIGHT_START.length; knightIndex++){
             int blackLoc = Piece.KNIGHT_START[knightIndex];
-            int whiteLoc = flipCoordinate(blackLoc);
+            int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Knight("black", blackLoc);
             Piece pWhite = new Knight("white", whiteLoc);
             setPiece(board, pBlack, "black", blackLoc);
@@ -58,7 +58,7 @@ public class View {
 
         for(int bishopIndex = 0; bishopIndex < Piece.BISHOP_START.length; bishopIndex++){
             int blackLoc = Piece.BISHOP_START[bishopIndex];
-            int whiteLoc = flipCoordinate(blackLoc);
+            int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Bishop("black", blackLoc);
             Piece pWhite = new Bishop("white", whiteLoc);
             setPiece(board, pBlack, "black", blackLoc);
@@ -67,7 +67,7 @@ public class View {
 
         for(int rookIndex = 0; rookIndex < Piece.ROOK_START.length; rookIndex++){
             int blackLoc = Piece.ROOK_START[rookIndex];
-            int whiteLoc = flipCoordinate(blackLoc);
+            int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Rook("black", blackLoc);
             Piece pWhite = new Rook("white", whiteLoc);
             setPiece(board, pBlack, "black", blackLoc);
@@ -76,7 +76,7 @@ public class View {
 
         for(int queenIndex = 0; queenIndex < Piece.QUEEN_START.length; queenIndex++){
             int blackLoc = Piece.QUEEN_START[queenIndex];
-            int whiteLoc = flipCoordinate(blackLoc);
+            int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Queen("black", blackLoc);
             Piece pWhite = new Queen("white", whiteLoc);
             setPiece(board, pBlack, "black", blackLoc);
@@ -85,7 +85,7 @@ public class View {
 
         for(int kingIndex = 0; kingIndex < Piece.KING_START.length; kingIndex++){
             int blackLoc = Piece.KING_START[kingIndex];
-            int whiteLoc = flipCoordinate(blackLoc);
+            int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new King("black", blackLoc);
             Piece pWhite = new King("white", whiteLoc);
             setPiece(board, pBlack, "black", blackLoc);
@@ -101,13 +101,7 @@ public class View {
     }
     
 
-    public static int flipCoordinate(int n){
-        int row = n/8;
-        int col = n%8;
-        int newRow = 8*(7-row);
-
-        return newRow+col;
-    }
+    
 
     public static void highlightSquare(Square sq){
         sq.getSquare().setFill(HIGHLIGHT);
