@@ -8,13 +8,18 @@ import com.chess.views.View;
 import javafx.scene.Group;
 
 public class Controller {
-    // public final Region view;
 
     public static Board board;
     public static Piece selectedPiece = null;
     public static boolean turnIsWhite = true;
     public static ArrayList<Square> moveSet = new ArrayList<Square>();
-    public static ArrayList<Piece> checkSet = new ArrayList<Piece>();
+
+    public static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
+    public static ArrayList<Integer> blackSquares = new ArrayList<Integer>();
+
+    public static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
+    public static ArrayList<Integer> whiteAquares = new ArrayList<Integer>();
+
     public static Piece whiteKing = null;
     public static Piece blackKing = null;
     public static boolean whiteInCheck = false, blackInCheck = false;
@@ -26,7 +31,7 @@ public class Controller {
         System.out.println("Entering View");
         View.drawBoard(root, board);
         System.out.println("Exiting View");
-        View.drawPieces(board);
+        View.drawPieces(board, blackPieces, whitePieces);
         blackKing = board.getSquare(Piece.KING_START[0]).getPiece();
         whiteKing = board.getSquare(MoveHelper.flipCoordinate(Piece.KING_START[0])).getPiece();
 
@@ -62,11 +67,9 @@ public class Controller {
         int line = checkForDiscoveredChecks(sq.getPiece());
         
         //potential Discovered check
-        System.out.println(line);
         if(line != 0){
             for(int i = 0; i < moveSet.size(); i++){
                 if((sq.getLocation() - moveSet.get(i).getLocation()) % line != 0){
-                    System.out.println(moveSet.get(i).getLocation());
                     moveSet.remove(i);
                     i--;
                 }
@@ -96,16 +99,21 @@ public class Controller {
 
     
     public static void movePiece(Square sq){
-        checkSet.clear();
         getFirstPieceInAllDirections();
-        for(Piece p : checkSet){
-            // System.out.println(p.getClass());
-            // System.out.println(p.getLocation());
-        }
+        
 
         // If destination square has a piece, remove it (i.e. "take" the opponents piece)
         if(sq.hasPiece()){
             sq.getPane().getChildren().remove(1);
+            if(turnIsWhite){
+                blackPieces.remove(sq.getPiece());
+            } else {
+                whitePieces.remove(sq.getPiece());
+            }
+            sq.getPiece().setLocation(-1);
+
+            System.out.println(whitePieces);
+            System.out.println(blackPieces);
         }
 
         // Remove Piece and image from its current square
@@ -121,8 +129,12 @@ public class Controller {
 
         // Set the piece's new location and check if it puts opponents king in check
         sq.getPiece().setLocation(sq.getLocation());
-        checkForChecks(sq.getPiece());
 
+        if(Pawn.class.isInstance(sq.getPiece())){
+            checkForPromotion(sq);
+        }
+
+        checkForChecks(sq.getPiece());
         // Change the turn
         turnIsWhite = !turnIsWhite;
     }
@@ -153,18 +165,16 @@ public class Controller {
     
             //Check if piece aligns with the king along a line
             direction = inLineWithKing(king, p.getLocation());
-            // System.out.println(direction);
 
             //If it aligns, check if it "blocks" the king. i.e. the first piece in the direction of the king on the same line is the king
             if(direction != 0 && MoveHelper.getFirstPieceInDirection(p.getLocation(), direction, board) == king){
 
                 //get the piece on the opposite side of the line
                 Piece p2 = MoveHelper.getFirstPieceInDirection(p.getLocation(), direction*-1, board);
-                // System.out.println(p2);
 
                 //Check if there is such a piece and if it's the enemy color
                 if(p2 != null && !p2.getColor().equals(king.getColor())){
-                    System.out.println("Enemy Piece!");
+                    
                     //Check if the piece threatens the king.
                     if(Queen.class.isInstance(p2) || Bishop.class.isInstance(p2)){
                         if(direction == Board.NORTH_EAST || direction == Board.NORTH_WEST || direction == Board.SOUTH_EAST || direction == Board.SOUTH_WEST){
@@ -229,12 +239,30 @@ public class Controller {
     public static void verifyFirstPieceInDirection(int loc, int direction){
         Piece p = MoveHelper.getFirstPieceInDirection(loc, direction, board);
         if(p != null && !Knight.class.isInstance(p)){
-            checkSet.add(p);
             // if(p.getColor().equals(selectedPiece.getColor())){
 
             // } else {
 
             // }
+        }
+    }
+
+    public static void checkForPromotion(Square sq){
+        if(turnIsWhite && sq.getPiece().getLocation()/8 == 0){
+            whitePieces.remove(sq.getPiece());
+            sq.getPiece().setLocation(-1);
+            sq.getPane().getChildren().remove(1);
+            Piece q = new Queen("white", sq.getLocation());
+            View.setPiece(board, q, sq.getLocation());
+            whitePieces.add(sq.getPiece());
+
+        } else if(!turnIsWhite && sq.getPiece().getLocation()/8 == 7){
+            blackPieces.remove(sq.getPiece());
+            sq.getPiece().setLocation(-1);
+            sq.getPane().getChildren().remove(1);
+            Piece q = new Queen("black", sq.getLocation());
+            View.setPiece(board, q, sq.getLocation());
+            blackPieces.add(sq.getPiece());
         }
     }
 }

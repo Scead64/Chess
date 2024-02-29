@@ -1,5 +1,7 @@
 package com.chess.views;
 
+import java.util.ArrayList;
+
 import com.chess.models.*;
 
 import javafx.scene.Group;
@@ -37,14 +39,16 @@ public class View {
         System.out.println("Exiting View Loop");
     }
 
-    public static void drawPieces(Board board){
+    public static void drawPieces(Board board, ArrayList<Piece> blackPieces, ArrayList<Piece> whitePieces){
         for(int pawnIndex = 0; pawnIndex < Piece.PAWN_START.length; pawnIndex++){
             int blackLoc = Piece.PAWN_START[pawnIndex];
             int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Pawn("black", blackLoc);
             Piece pWhite = new Pawn("white", whiteLoc);
-            setPiece(board, pBlack, "black", blackLoc);
-            setPiece(board, pWhite, "white", whiteLoc);
+            setPiece(board, pBlack, blackLoc);
+            setPiece(board, pWhite, whiteLoc);
+            blackPieces.add(pBlack);
+            whitePieces.add(pWhite);
         }
 
         for(int knightIndex = 0; knightIndex < Piece.KNIGHT_START.length; knightIndex++){
@@ -52,8 +56,10 @@ public class View {
             int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Knight("black", blackLoc);
             Piece pWhite = new Knight("white", whiteLoc);
-            setPiece(board, pBlack, "black", blackLoc);
-            setPiece(board, pWhite, "white", whiteLoc);
+            setPiece(board, pBlack, blackLoc);
+            setPiece(board, pWhite, whiteLoc);
+            blackPieces.add(pBlack);
+            whitePieces.add(pWhite);
         }
 
         for(int bishopIndex = 0; bishopIndex < Piece.BISHOP_START.length; bishopIndex++){
@@ -61,8 +67,10 @@ public class View {
             int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Bishop("black", blackLoc);
             Piece pWhite = new Bishop("white", whiteLoc);
-            setPiece(board, pBlack, "black", blackLoc);
-            setPiece(board, pWhite, "white", whiteLoc);
+            setPiece(board, pBlack, blackLoc);
+            setPiece(board, pWhite, whiteLoc);
+            blackPieces.add(pBlack);
+            whitePieces.add(pWhite);
         }
 
         for(int rookIndex = 0; rookIndex < Piece.ROOK_START.length; rookIndex++){
@@ -70,8 +78,10 @@ public class View {
             int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Rook("black", blackLoc);
             Piece pWhite = new Rook("white", whiteLoc);
-            setPiece(board, pBlack, "black", blackLoc);
-            setPiece(board, pWhite, "white", whiteLoc);
+            setPiece(board, pBlack, blackLoc);
+            setPiece(board, pWhite, whiteLoc);
+            blackPieces.add(pBlack);
+            whitePieces.add(pWhite);
         }
 
         for(int queenIndex = 0; queenIndex < Piece.QUEEN_START.length; queenIndex++){
@@ -79,8 +89,10 @@ public class View {
             int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new Queen("black", blackLoc);
             Piece pWhite = new Queen("white", whiteLoc);
-            setPiece(board, pBlack, "black", blackLoc);
-            setPiece(board, pWhite, "white", whiteLoc);
+            setPiece(board, pBlack, blackLoc);
+            setPiece(board, pWhite, whiteLoc);
+            blackPieces.add(pBlack);
+            whitePieces.add(pWhite);
         }
 
         for(int kingIndex = 0; kingIndex < Piece.KING_START.length; kingIndex++){
@@ -88,20 +100,19 @@ public class View {
             int whiteLoc = MoveHelper.flipCoordinate(blackLoc);
             Piece pBlack = new King("black", blackLoc);
             Piece pWhite = new King("white", whiteLoc);
-            setPiece(board, pBlack, "black", blackLoc);
-            setPiece(board, pWhite, "white", whiteLoc);
+            setPiece(board, pBlack, blackLoc);
+            setPiece(board, pWhite, whiteLoc);
+            blackPieces.add(pBlack);
+            whitePieces.add(pWhite);
         }
     }
 
-    private static void setPiece(Board board, Piece p, String color, int loc){
+    public static void setPiece(Board board, Piece p, int loc){
         StackPane sp = board.getSquare(loc).getPane();
         p.getImageView().setFitHeight(SQUARE_SIZE);
         sp.getChildren().add(p.getImageView());
         board.getSquare(loc).setPiece(p);
     }
-    
-
-    
 
     public static void highlightSquare(Square sq){
         sq.getSquare().setFill(HIGHLIGHT);
