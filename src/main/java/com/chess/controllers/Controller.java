@@ -2,6 +2,7 @@ package com.chess.controllers;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.chess.models.*;
 import com.chess.views.View;
@@ -15,10 +16,10 @@ public class Controller {
     public static ArrayList<Square> moveSet = new ArrayList<Square>();
 
     public static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
-    public static ArrayList<Integer> blackSquares = new ArrayList<Integer>();
+    public static HashSet<Integer> blackSquares = new HashSet<Integer>();
 
     public static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
-    public static ArrayList<Integer> whiteAquares = new ArrayList<Integer>();
+    public static HashSet<Integer> whiteSquares = new HashSet<Integer>();
 
     public static Piece whiteKing = null;
     public static Piece blackKing = null;
@@ -57,17 +58,37 @@ public class Controller {
         }
     }
     
+    /**
+     * Checks the piece located at the given square for potential moves.
+     * 
+     * 
+     * 
+     * @param sq
+     *         The square to check for valid moves
+     * 
+     * @requires
+     *         sq has a piece
+     * 
+     * @updates
+     *         moveSet with valid moves if any
+     * 
+     * @return true if the piece at the given square has any valid moves,
+     *         false otherwise
+     */
     public static boolean getPossibleMoves(Square sq){
-        moveSet.clear();
-        
+
+        // Update moveSet
+        moveSet.clear();        
         for(int loc : sq.getPiece().getMoves(board)){
             moveSet.add(board.getSquare(loc));
         }
         
+        // Check for potential discovered checks
         int line = checkForDiscoveredChecks(sq.getPiece());
-        
-        //potential Discovered check
+
         if(line != 0){
+
+            // Potential Discovered check - need to remove moves that put king in danger
             for(int i = 0; i < moveSet.size(); i++){
                 if((sq.getLocation() - moveSet.get(i).getLocation()) % line != 0){
                     moveSet.remove(i);
@@ -75,10 +96,17 @@ public class Controller {
                 }
             }
         }
-
         return moveSet.size() > 0 ? true : false;
     }
 
+    /**
+     * Sets the selectedPiece and updates view accordingly with potential moves and sq
+     * 
+     * 
+     * @param sq
+     * @requires
+     *         sq has a piece
+     */
     public static void selectPiece(Square sq){
         selectedPiece = sq.getPiece();
 
@@ -88,6 +116,13 @@ public class Controller {
         View.hightlightSelectedSquare(sq);
     }
 
+
+    /**
+     * Updates the view to an "unhighlighted" state and resets the selected piece
+     * 
+     * @param p
+     *      The piece to unhighlight
+     */
     public static void deselectPiece(Piece p){
         for(Square sq : moveSet){
             View.unhighlightSquare(sq);
@@ -134,23 +169,41 @@ public class Controller {
             checkForPromotion(sq);
         }
 
-        checkForChecks(sq.getPiece());
+        if (turnIsWhite){
+            checkForChecks(whitePieces, whiteSquares);
+        } else {
+            checkForChecks(blackPieces, blackSquares);
+        }
+
         // Change the turn
         turnIsWhite = !turnIsWhite;
     }
 
-    public static void checkForChecks(Piece p){
-        for(int loc : p.getMoves(board)){
-            if(board.getSquare(loc).hasPiece() && board.getSquare(loc).getPiece().equals(whiteKing)){
-                whiteInCheck = true;
-                System.out.println("white in check");
-                break;
-            } else if(board.getSquare(loc).hasPiece() && board.getSquare(loc).getPiece().equals(blackKing)){
-                blackInCheck = true;
-                System.out.println("black in check");
-                break;
+    public static void checkForChecks(ArrayList<Piece> pieces, HashSet<Integer> squares){
+        squares.clear();
+        int numAttackingPieces = 0;
+
+        for(Piece p : pieces){
+            for(int loc : p.getMoves(board)){
+                squares.add(loc);
+                if(turnIsWhite && loc == blackKing.getLocation()){
+                    blackInCheck = true;
+                    numAttackingPieces++;
+                    System.out.println("black in check");
+                    
+                } else if(!turnIsWhite && squares.contains(whiteKing.getLocation())){
+                    whiteInCheck = true;
+                    numAttackingPieces++;
+                    System.out.println("white in check");
+                }
             }
-        }  
+        }
+
+        if(numAttackingPieces > 1){
+            // case where king MUST move
+        } else if(numAttackingPieces == 1){
+            // case where king can move or attacking piece can be blocked/taken
+        }
     }
 
     public static int checkForDiscoveredChecks(Piece p){
